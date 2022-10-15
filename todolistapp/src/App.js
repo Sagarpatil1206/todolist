@@ -3,19 +3,15 @@ import './App.css';
 import Form from './components/Form';
 import Todolist from './components/Todolist';
 
-function App() {
-  const [inputText,setInputText]=useState("");
-  const [todos,setTodos]=useState([]);
-  const [status,setStatus]=useState("all");
-  const [filteredTodos,setFilteredTodos]=useState([]);
+function App() { //main app function which will render our web app 
+  const [inputText,setInputText]=useState("");   //state which will store our input text
+  const [todos,setTodos]=useState([]);           //state e=which will store our array of todos
+  const [status,setStatus]=useState("all");      //state which will store status of our selection from dropdown
+  const [filteredTodos,setFilteredTodos]=useState([]); //filtered out todos according to the status
 
-  useEffect(()=> {getLocalTodos();},[]); //get pehle the previous ones and then
-  useEffect(() => {filterHandler(); saveLocalTodos();} , [status,todos]); //saving them in localstorage
-  
+  useEffect(() => {filterHandler();} , [status,todos]); //saving them in localstorage
 
-  //useEffect(()=>{},[])//[] meanse only render at start
-
-  const filterHandler = () => {
+  const filterHandler = () => { //use for setting filteredTOdos according to status
     switch(status){
       case "completed":
         setFilteredTodos(todos.filter(todo => (todo.completed === true)));
@@ -33,12 +29,6 @@ function App() {
 
   //save to local
 
-  const saveLocalTodos = () => {
-    //if (todos.length > 0) { //refresh karne par empty arr aa jayega jo save ho jayega and usko display karn apossible nahi hoga
-      localStorage.setItem('todos',JSON.stringify(todos)) 
-    //};
-  };
-
   const getLocalTodos = () => {
     if(localStorage.getItem('todos') === null){
       localStorage.setItem('todos',JSON.stringify([]));
@@ -54,10 +44,10 @@ function App() {
 
   return (
     <div className="App">
-      <h1><header>Hello React</header></h1>
-      <Form 
+      <h1><header>Hello React</header></h1>  
+      <Form //rendering form component which we have imported from its file
       setInputText={setInputText} inputText={inputText} setTodos={setTodos} 
-      todos={todos} status={status} setStatus={setStatus}
+      todos={todos} status={status} setStatus={setStatus}  //exporting states which we are gonna need in form
        setFilteredTodos={setFilteredTodos}/>
       <Todolist todos={todos} setTodos={setTodos} filteredTodos={filteredTodos}/>
     </div>
@@ -65,6 +55,8 @@ function App() {
 }
 
 export default App;
+
+
 /*
 {/*import React , {useState} from "react";
 
